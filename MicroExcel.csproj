@@ -90,5 +90,14 @@
   <ItemGroup>
     <None Include="Pics\save.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Pics\Formula.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pics\123.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pics\new.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
