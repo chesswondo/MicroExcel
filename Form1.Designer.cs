@@ -77,18 +77,21 @@ namespace MicroExcel
             // 
             // открытьToolStripMenuItem
             // 
+            this.открытьToolStripMenuItem.Image = global::MicroExcel.Properties.Resources.load;
             this.открытьToolStripMenuItem.Name = "открытьToolStripMenuItem";
             this.открытьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.открытьToolStripMenuItem.Text = "Открыть";
             // 
             // сохранитьToolStripMenuItem
             // 
+            this.сохранитьToolStripMenuItem.Image = global::MicroExcel.Properties.Resources.save;
             this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
             this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.сохранитьToolStripMenuItem.Text = "Сохранить";
             // 
             // QuitMenuItem
             // 
+            this.QuitMenuItem.Image = global::MicroExcel.Properties.Resources.exit;
             this.QuitMenuItem.Name = "QuitMenuItem";
             this.QuitMenuItem.Size = new System.Drawing.Size(180, 22);
             this.QuitMenuItem.Text = "Выход";
