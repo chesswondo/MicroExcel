@@ -93,7 +93,11 @@ namespace MicroExcel
 
         private void QuitMenuItem_Click(object sender, EventArgs e)
         {
-            Close();
+            DialogResult result = MessageBox.Show("Quit?", "Exit", MessageBoxButtons.YesNo);
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+                Close();
+            }
         }
     }
 }
