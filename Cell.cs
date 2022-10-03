@@ -17,7 +17,7 @@ namespace MicroExcel
         private string _name;
 
         // Геттери та сеттери
-        public string Value { get { return _value; } set { _value = value.Equals("0") ? "0" : "1"; } }
+        public string Value { get { return _value; } set { _value = value; /* .Equals("0") ? "0" : "1"; */ } }
         public string Formula { get { return _formula; } set { _formula = value; } }
         public DataGridViewCell Parent { get { return _parent; } }
         public string Name { get { return _name; } }
@@ -28,7 +28,7 @@ namespace MicroExcel
             _parent = parent;
             _name = name;
             _formula = formula;
-            _value = "0";
+            _value = "";
             _error = "";
             CellReferences = new List<Cell>();
             CellReferences.Add(new Cell());    // Добавити пусту (відсутню в таблиці) комірку
