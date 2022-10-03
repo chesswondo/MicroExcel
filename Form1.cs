@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+
 
 namespace MicroExcel
 {
@@ -214,6 +216,7 @@ namespace MicroExcel
             // Значення комірки для редагування береться як формула з об'єкту
             DataGridViewCell dgvCell = cell.Parent;
             dgvCell.Value = cell.Formula;
+
         }
 
         private void dataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -237,6 +240,91 @@ namespace MicroExcel
             cell.Value = cell.Formula.Length.ToString();
 
             UpdateSingleCellValue(dgvCell);
+        }
+
+
+        private void Save()
+        {
+            Stream mystream;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if ((mystream = saveFileDialog.OpenFile()) != null)
+                {
+                    StreamWriter sw = new StreamWriter(mystream);
+                    sw.WriteLine(dataGridView.RowCount.ToString() + " " + dataGridView.ColumnCount.ToString());
+
+                    for (int i=0; i < dataGridView.RowCount; i++)
+                    {
+                        for (int j = 0; j < dataGridView.ColumnCount; j++)
+                        {
+                            Cell cell = (Cell)dataGridView.Rows[i].Cells[j].Tag;
+                            sw.WriteLine(i.ToString()+" " + j.ToString());
+                            sw.WriteLine(cell.Formula);
+                            sw.WriteLine(cell.Value);
+                        }
+                    }
+                    sw.Close();
+                    mystream.Close();
+                }
+
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        private void Open()
+        {
+            Stream mystream;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if ((mystream = openFileDialog.OpenFile()) != null)
+                {
+                    StreamReader sr = new StreamReader(mystream);
+                    var Size = sr.ReadLine().Split(' ');
+                    dataGridView.AllowUserToAddRows = false;
+                    dataGridView.ColumnCount = int.Parse(Size[1]);
+                    dataGridView.RowCount = int.Parse(Size[0]);
+
+                    FillHeaders();
+
+                    dataGridView.AutoResizeRows();
+                    dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                    dataGridView.RowHeadersWidth = _rowHeaderWidth;
+
+                    while(sr.Peek() != -1)
+                    {
+                        var coord = sr.ReadLine().Split(' ');
+                        DataGridViewRow row = dataGridView.Rows[int.Parse(coord[0])];
+                        DataGridViewCell cell = row.Cells[int.Parse(coord[1])];
+                        string cellName = "R" + (row.Index + 1).ToString() + "C" + (cell.ColumnIndex + 1).ToString();
+                        Cell ns = new Cell(cell, cellName, sr.ReadLine());
+                        ns.Value = sr.ReadLine();
+                        cell.Tag = ns;
+                    }
+                    UpdateCellValues();
+                    sr.Close();
+                    mystream.Close();
+                }
+
+            }
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            Open();
+        }
+
+        private void miSave_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        private void miOpen_Click(object sender, EventArgs e)
+        {
+            Open();
         }
     }
 }

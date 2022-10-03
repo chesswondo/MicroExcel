@@ -23,12 +23,12 @@ namespace MicroExcel
         public string Name { get { return _name; } }
         public string Error { get { return _error; } set { _error = value; } }
         public List<Cell> CellReferences { get; set; }  // Список комірок, від яких залежить значення даної комірки
-        public Cell(DataGridViewCell parent, string name, string formula)
+        public Cell(DataGridViewCell parent, string name, string formula, string value = "")
         {
             _parent = parent;
             _name = name;
             _formula = formula;
-            _value = "";
+            _value = value;
             _error = "";
             CellReferences = new List<Cell>();
             CellReferences.Add(new Cell());    // Добавити пусту (відсутню в таблиці) комірку
