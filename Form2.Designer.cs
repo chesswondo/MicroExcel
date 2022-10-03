@@ -62,7 +62,7 @@ namespace MicroExcel
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(118, 13);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Автор Антон Красіков";
+            this.label3.Text = "Автор chesswondo";
             // 
             // btnOK
             // 
