@@ -20,6 +20,7 @@ namespace MicroExcel
 
         private bool _formulaView = false;       // Показувати формули чи значення
 
+        MEParser parser = new MEParser();
 
         public MicroExcel()
         {
@@ -237,7 +238,10 @@ namespace MicroExcel
             //ResolveCellFormula(cell, dgvCell);
             // Вместо doit пока такое...
             cell.Formula = dgvCell.Value.ToString();
-            cell.Value = cell.Formula.Length.ToString();
+            if (cell.Formula == null || cell.Formula.Length == 0)
+                cell.Value = "";
+            else
+                cell.Value = parser.Evaluate(cell.Formula).ToString();
 
             UpdateSingleCellValue(dgvCell);
         }

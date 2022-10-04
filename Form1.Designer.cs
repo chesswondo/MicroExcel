@@ -31,21 +31,21 @@ namespace MicroExcel
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.видToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.formulaView = new System.Windows.Forms.CheckBox();
-            this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.miAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnLoad = new System.Windows.Forms.Button();
-            this.btnNew = new System.Windows.Forms.Button();
             this.miNew = new System.Windows.Forms.ToolStripMenuItem();
             this.miOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.miSave = new System.Windows.Forms.ToolStripMenuItem();
             this.QuitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.видToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miFormulas = new System.Windows.Forms.ToolStripMenuItem();
             this.miValues = new System.Windows.Forms.ToolStripMenuItem();
+            this.miAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.formulaView = new System.Windows.Forms.CheckBox();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnLoad = new System.Windows.Forms.Button();
+            this.btnNew = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -73,6 +73,42 @@ namespace MicroExcel
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
             // 
+            // miNew
+            // 
+            this.miNew.Image = global::MicroExcel.Properties.Resources._new;
+            this.miNew.Name = "miNew";
+            this.miNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.miNew.Size = new System.Drawing.Size(165, 22);
+            this.miNew.Text = "Новий";
+            this.miNew.Click += new System.EventHandler(this.miNew_Click);
+            // 
+            // miOpen
+            // 
+            this.miOpen.Image = global::MicroExcel.Properties.Resources.load;
+            this.miOpen.Name = "miOpen";
+            this.miOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.miOpen.Size = new System.Drawing.Size(165, 22);
+            this.miOpen.Text = "Відкрити";
+            this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
+            // 
+            // miSave
+            // 
+            this.miSave.Image = global::MicroExcel.Properties.Resources.save;
+            this.miSave.Name = "miSave";
+            this.miSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.miSave.Size = new System.Drawing.Size(165, 22);
+            this.miSave.Text = "Зберегти";
+            this.miSave.Click += new System.EventHandler(this.miSave_Click);
+            // 
+            // QuitMenuItem
+            // 
+            this.QuitMenuItem.Image = global::MicroExcel.Properties.Resources.exit;
+            this.QuitMenuItem.Name = "QuitMenuItem";
+            this.QuitMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.X)));
+            this.QuitMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.QuitMenuItem.Text = "Вихід";
+            this.QuitMenuItem.Click += new System.EventHandler(this.QuitMenuItem_Click);
+            // 
             // видToolStripMenuItem
             // 
             this.видToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -81,6 +117,31 @@ namespace MicroExcel
             this.видToolStripMenuItem.Name = "видToolStripMenuItem";
             this.видToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.видToolStripMenuItem.Text = "Вигляд";
+            // 
+            // miFormulas
+            // 
+            this.miFormulas.Image = global::MicroExcel.Properties.Resources.Formula;
+            this.miFormulas.Name = "miFormulas";
+            this.miFormulas.Size = new System.Drawing.Size(127, 22);
+            this.miFormulas.Text = "Формули";
+            this.miFormulas.Click += new System.EventHandler(this.miFormulas_Click);
+            // 
+            // miValues
+            // 
+            this.miValues.Checked = true;
+            this.miValues.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.miValues.Image = global::MicroExcel.Properties.Resources._123;
+            this.miValues.Name = "miValues";
+            this.miValues.Size = new System.Drawing.Size(127, 22);
+            this.miValues.Text = "Значення";
+            this.miValues.Click += new System.EventHandler(this.miValues_Click);
+            // 
+            // miAbout
+            // 
+            this.miAbout.Name = "miAbout";
+            this.miAbout.Size = new System.Drawing.Size(99, 20);
+            this.miAbout.Text = "Про програму";
+            this.miAbout.Click += new System.EventHandler(this.miAbout_Click);
             // 
             // formulaView
             // 
@@ -111,13 +172,6 @@ namespace MicroExcel
             // openFileDialog
             // 
             this.openFileDialog.FileName = "openFileDialog1";
-            // 
-            // miAbout
-            // 
-            this.miAbout.Name = "miAbout";
-            this.miAbout.Size = new System.Drawing.Size(99, 20);
-            this.miAbout.Text = "Про програму";
-            this.miAbout.Click += new System.EventHandler(this.miAbout_Click);
             // 
             // btnSave
             // 
@@ -158,60 +212,6 @@ namespace MicroExcel
             this.btnNew.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnNew.UseVisualStyleBackColor = true;
             this.btnNew.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // miNew
-            // 
-            this.miNew.Image = global::MicroExcel.Properties.Resources._new;
-            this.miNew.Name = "miNew";
-            this.miNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.miNew.Size = new System.Drawing.Size(165, 22);
-            this.miNew.Text = "Новий";
-            this.miNew.Click += new System.EventHandler(this.miNew_Click);
-            // 
-            // miOpen
-            // 
-            this.miOpen.Image = global::MicroExcel.Properties.Resources.load;
-            this.miOpen.Name = "miOpen";
-            this.miOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.miOpen.Size = new System.Drawing.Size(165, 22);
-            this.miOpen.Text = "Відкрити";
-            this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
-            // 
-            // miSave
-            // 
-            this.miSave.Image = global::MicroExcel.Properties.Resources.save;
-            this.miSave.Name = "miSave";
-            this.miSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.miSave.Size = new System.Drawing.Size(165, 22);
-            this.miSave.Text = "Зберегти";
-            this.miSave.Click += new System.EventHandler(this.miSave_Click);
-            // 
-            // QuitMenuItem
-            // 
-            this.QuitMenuItem.Image = global::MicroExcel.Properties.Resources.exit;
-            this.QuitMenuItem.Name = "QuitMenuItem";
-            this.QuitMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.X)));
-            this.QuitMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.QuitMenuItem.Text = "Вихід";
-            this.QuitMenuItem.Click += new System.EventHandler(this.QuitMenuItem_Click);
-            // 
-            // miFormulas
-            // 
-            this.miFormulas.Image = global::MicroExcel.Properties.Resources.Formula;
-            this.miFormulas.Name = "miFormulas";
-            this.miFormulas.Size = new System.Drawing.Size(127, 22);
-            this.miFormulas.Text = "Формули";
-            this.miFormulas.Click += new System.EventHandler(this.miFormulas_Click);
-            // 
-            // miValues
-            // 
-            this.miValues.Checked = true;
-            this.miValues.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.miValues.Image = global::MicroExcel.Properties.Resources._123;
-            this.miValues.Name = "miValues";
-            this.miValues.Size = new System.Drawing.Size(127, 22);
-            this.miValues.Text = "Значення";
-            this.miValues.Click += new System.EventHandler(this.miValues_Click);
             // 
             // MicroExcel
             // 
