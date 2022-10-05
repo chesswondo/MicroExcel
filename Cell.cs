@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace MicroExcel
 {
-    class Cell
+    public class Cell
     {
         private DataGridViewCell _parent;
         private string _value;           // Є значення чи немає

@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
+using System.Data;
+using System.Drawing;
+using System.Windows.Forms;
+using System.IO;
 
 namespace MicroExcel
 {
@@ -28,10 +33,9 @@ namespace MicroExcel
     public class MEParser : LabCalculatorBaseVisitor<double>
     {
 
+        private MicroExcel me;
         public enum Errors { NOERR, SYNTAX, UNBALPARENS, NOEXP, DIVBYZERO };
         public Errors tokErrors;
-        //таблиця ідентифікаторів
-        Dictionary<string, double> tableIdentifier = new Dictionary<string, double>();
         public override double VisitCompileUnit(LabCalculatorParser.CompileUnitContext context)
         {
             return Visit(context.expression());
@@ -45,18 +49,19 @@ namespace MicroExcel
         //IdentifierExpr
         public override double VisitIdentifierExpr(LabCalculatorParser.IdentifierExprContext context)
         {
+            string result = context.GetText();
+            var rc = Regex.Split(result, @"\D+").Where(s => s != "").ToArray();
+            int row = Convert.ToInt32(rc[0])-1;
+            int col = Convert.ToInt32(rc[1])-1;
+            if (row < 0 || row >= MicroExcel._maxRows || col < 0 || col >= MicroExcel._maxCols)
+                throw new ArgumentException("Посилання на неіснуючу комірку");
+            Cell cell = me.getCell(row, col);
 
-            var result = context.GetText();
-            double value;
-            //видобути значення змінної з таблиці
-            if (tableIdentifier.TryGetValue(result.ToString(), out value))
-            {
-                return value;
-            }
-            else
-            {
-                return 0.0;
-            }
+            //string g = "Get [" + row + "," + col + "] = " + cell.Value;
+            //MessageBox.Show(g, "", MessageBoxButtons.OK);
+
+            if (cell.Value == "") return 0.0;
+            return Convert.ToDouble(cell.Value);
         }
         public override double VisitParenthesizedExpr(LabCalculatorParser.ParenthesizedExprContext context)
         {
@@ -127,16 +132,18 @@ namespace MicroExcel
         {
             return Visit(context.GetRuleContext<LabCalculatorParser.ExpressionContext>(1));
         }
-        public double Evaluate(string expression)
+        public double Evaluate(string expression, MicroExcel me)
         {
+            this.me = me;
             var lexer = new LabCalculatorLexer(new AntlrInputStream(expression));
             lexer.RemoveErrorListeners();
             lexer.AddErrorListener(new ThrowExceptionErrorListener());
             var tokens = new CommonTokenStream(lexer);
             var parser = new LabCalculatorParser(tokens);
             var tree = parser.compileUnit();
-            var visitor = new MEParser();
-            return visitor.Visit(tree);
+            //   var visitor = new MEParser();
+            //   return visitor.Visit(tree);
+            return MicroExcel.parser.Visit(tree);
 
         }
     }

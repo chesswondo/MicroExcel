@@ -14,13 +14,13 @@ namespace MicroExcel
 {
     public partial class MicroExcel : Form
     {
-        private const int _maxCols = 16;
-        private const int _maxRows = 32;
+        public const int _maxCols = 16;
+        public const int _maxRows = 32;
         private const int _rowHeaderWidth = 70;  // Ширина заголовка рядків
 
         private bool _formulaView = false;       // Показувати формули чи значення
 
-        MEParser parser = new MEParser();
+        static public MEParser parser = new MEParser();   // Доступний всім
 
         public MicroExcel()
         {
@@ -244,12 +244,13 @@ namespace MicroExcel
             {
                 try
                 {
-                    cell.Value = parser.Evaluate(cell.Formula).ToString();
+                    cell.Value = parser.Evaluate(cell.Formula, this).ToString();
                 }
                 catch (ArgumentException ee)
                 {
                     MessageBox.Show(ee.Message, "Помилка", MessageBoxButtons.OK);
                     cell.Value = "";
+                    cell.Formula = "";
                 }
             }
             UpdateSingleCellValue(dgvCell);
@@ -344,6 +345,14 @@ namespace MicroExcel
         {
             Form2 form = new Form2();
             form.Show();
+        }
+
+        public Cell getCell(int row, int col)
+        {
+            //Cell cell = (Cell)dataGridView[col, row].Tag;
+            //string g = "GetCell [" + row + "," + col + "] = " + cell.Value;
+            //MessageBox.Show(g, "", MessageBoxButtons.OK);
+            return (Cell)dataGridView[col, row].Tag;
         }
     }
 }
