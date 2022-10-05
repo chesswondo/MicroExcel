@@ -244,6 +244,8 @@ namespace MicroExcel
             {
                 try
                 {
+                    if (!checkParens(cell.Formula))
+                        throw new ArgumentException("Проблема з дужками у виразі");
                     cell.Value = parser.Evaluate(cell.Formula, this).ToString();
                 }
                 catch (ArgumentException ee)
@@ -252,10 +254,27 @@ namespace MicroExcel
                     cell.Value = "";
                     cell.Formula = "";
                 }
+                catch (Exception ee)
+                {
+                    MessageBox.Show("Невірна формула", "Помилка", MessageBoxButtons.OK);
+                    cell.Value = "";
+                    cell.Formula = "";
+                }
             }
             UpdateSingleCellValue(dgvCell);
         }
 
+        private bool checkParens(string f)
+        {
+            int stk = 0;
+            foreach(var c in f)
+            {
+                if (c == '(') stk++; 
+                else if (c == ')') stk--;
+                if (stk < 0) return false;
+            }
+            return stk == 0;
+        }
 
         private void Save()
         {

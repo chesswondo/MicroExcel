@@ -3,7 +3,8 @@
 /*
 * Parser Rules
 */
-compileUnit : expression EOF;
+//compileUnit : expression EOF;
+compileUnit : expression;
 expression :
 LPAREN expression RPAREN                                              #ParenthesizedExpr
 | <assoc=right> expression EXPONENT expression                        #ExponentialExpr
