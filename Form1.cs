@@ -128,6 +128,7 @@ namespace MicroExcel
                     resetCalculated();
                     c.calcflag = true;
                     c.Value = parser.Evaluate(c.Formula, this).ToString();
+
                  }
             }
         }
@@ -279,7 +280,7 @@ namespace MicroExcel
             }
             reCalcAll();
             UpdateCellValues();
-            UpdateSingleCellValue(dgvCell);
+            //UpdateSingleCellValue(dgvCell);
         }
 
         private bool checkParens(string f)
