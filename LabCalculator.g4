@@ -5,14 +5,13 @@
 */
 compileUnit : expression EOF;
 expression :
-LPAREN expression RPAREN                                             #ParenthesizedExpr
-| <assoc=right> expression EXPONENT expression                       #ExponentialExpr
-| expression operatorToken=(MULTIPLY | DIVIDE) expression            #MultiplicativeExpr
-| expression operatorToken=(DIV | MOD) expression                    #DivModExpr
-| expression operatorToken=(ADD | SUBTRACT) expression               #AdditiveExpr
-| operatorToken=(MAX | MIN) LPAREN expression COMA expression RPAREN #MaxMinExpr
-| NUMBER                                                             #NumberExpr
-| IDENTIFIER                                                         #IdentifierExpr
+LPAREN expression RPAREN                                              #ParenthesizedExpr
+| <assoc=right> expression EXPONENT expression                        #ExponentialExpr
+| expression operatorToken=(MULTIPLY | DIVIDE | DIV | MOD) expression #MultiplicativeExpr
+| expression operatorToken=(ADD | SUBTRACT) expression                #AdditiveExpr
+| operatorToken=(MAX | MIN) LPAREN expression COMA expression RPAREN  #MaxMinExpr
+| NUMBER                                                              #NumberExpr
+| IDENTIFIER                                                          #IdentifierExpr
 ;
 
 /*

@@ -241,8 +241,17 @@ namespace MicroExcel
             if (cell.Formula == null || cell.Formula.Length == 0)
                 cell.Value = "";
             else
-                cell.Value = parser.Evaluate(cell.Formula).ToString();
-
+            {
+                try
+                {
+                    cell.Value = parser.Evaluate(cell.Formula).ToString();
+                }
+                catch (ArgumentException ee)
+                {
+                    MessageBox.Show(ee.Message, "Помилка", MessageBoxButtons.OK);
+                    cell.Value = "";
+                }
+            }
             UpdateSingleCellValue(dgvCell);
         }
 

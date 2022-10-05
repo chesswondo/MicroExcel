@@ -104,36 +104,20 @@ namespace MicroExcel
             }
         }
 
-        public override double VisitDivModExpr([NotNull] LabCalculatorParser.DivModExprContext context)
-        {
-            var left = WalkLeft(context);
-            var right = WalkRight(context);
-            if (context.operatorToken.Type == LabCalculatorLexer.DIV)
-            {
-                //Debug.WriteLine("{0} div {1}", left, right);
-                return Math.Truncate(left/right);
-            }
-            else //LabCalculatorLexer.SUBTRACT
-            {
-                //Debug.WriteLine("{0} mod {1}", left, right);
-                return left % right;
-            }
-        }
-
         public override double VisitMultiplicativeExpr(LabCalculatorParser.MultiplicativeExprContext context)
         {
             var left = WalkLeft(context);
             var right = WalkRight(context);
-            if (context.operatorToken.Type == LabCalculatorLexer.MULTIPLY)
+            if (context.operatorToken.Type != LabCalculatorLexer.MULTIPLY && right == 0)
+                throw new ArgumentException("Дiлення на 0");
+            switch (context.operatorToken.Type)
             {
-                //Debug.WriteLine("{0} * {1}", left, right);
-                return left * right;
+                case LabCalculatorLexer.MULTIPLY: return left * right;
+                case LabCalculatorLexer.DIVIDE:   return left / right;
+                case LabCalculatorLexer.DIV:      return Math.Truncate(left / right);
+                case LabCalculatorLexer.MOD:      return left % right;
             }
-            else //LabCalculatorLexer.DIVIDE
-            {
-                //Debug.WriteLine("{0} / {1}", left, right);
-                return left / right;
-            }
+            throw new ArgumentException("Помилковий вираз");
         }
         private double WalkLeft(LabCalculatorParser.ExpressionContext context)
         {
