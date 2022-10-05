@@ -22,8 +22,11 @@ namespace MicroExcel
 
         static public MEParser parser = new MEParser();   // Доступний всім
 
+        public List<Cell> cells;
+
         public MicroExcel()
         {
+            cells = new List<Cell>();
             InitializeComponent();
             InitializeDataGridView();
             InitializeAllCells();
@@ -62,9 +65,12 @@ namespace MicroExcel
             // Компонуємо її ім'я
             string cellName = "R" + (row.Index + 1).ToString() + "C" + (cell.ColumnIndex + 1).ToString();
             // Створюємо комірку; cell — батьківський об'єкт
-            cell.Tag = new Cell(cell, cellName, "");
+            Cell ns = new Cell(cell, cellName, row.Index + 1, cell.ColumnIndex + 1, "");
+            cell.Tag = ns;
             cell.Value = "";
             // cell.Value = cellName;  // Для відладки - ім'я комірки
+
+            cells.Add(ns);
         }
         // Ініціалізуємо всі комірки таблиці
         private void InitializeAllCells()
@@ -107,6 +113,25 @@ namespace MicroExcel
             }
         }
 
+        private void resetCalculated()
+        {
+            foreach (Cell c in cells)
+                c.calcflag = false;
+        }
+
+        private void reCalcAll()
+        {
+            foreach (Cell c in cells)
+            {
+                if (c.Formula != "")
+                {
+                    resetCalculated();
+                    c.calcflag = true;
+                    c.Value = parser.Evaluate(c.Formula, this).ToString();
+                 }
+            }
+        }
+
         // Оновлення значення комірки 
         private void UpdateSingleCellValue(DataGridViewCell dgvCell)
         {
@@ -114,17 +139,6 @@ namespace MicroExcel
 
             if (!_formulaView)
             {
-                // Виводити значення комірки
-                /* doit
-                if (cell.Formula.Equals("") || Regex.IsMatch(cell.Formula,@"^\d+$"))
-                {
-                    dgvCell.Value = cell.Value;
-                }
-                else
-                {
-                    dgvCell.Value = cell.Evaluate();
-                }
-                */
                 dgvCell.Value = cell.Value;
             }
             else
@@ -242,6 +256,8 @@ namespace MicroExcel
                 cell.Value = "";
             else
             {
+                resetCalculated();
+                cell.calcflag = true;
                 try
                 {
                     if (!checkParens(cell.Formula))
@@ -256,11 +272,13 @@ namespace MicroExcel
                 }
                 catch (Exception ee)
                 {
-                    MessageBox.Show("Невірна формула", "Помилка", MessageBoxButtons.OK);
+                    MessageBox.Show("Невірна формула: " + ee.Message, "Помилка", MessageBoxButtons.OK);
                     cell.Value = "";
                     cell.Formula = "";
                 }
             }
+            reCalcAll();
+            UpdateCellValues();
             UpdateSingleCellValue(dgvCell);
         }
 
@@ -327,15 +345,18 @@ namespace MicroExcel
                     dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                     dataGridView.RowHeadersWidth = _rowHeaderWidth;
 
+                    cells.Clear();
+
                     while(sr.Peek() != -1)
                     {
                         var coord = sr.ReadLine().Split(' ');
                         DataGridViewRow row = dataGridView.Rows[int.Parse(coord[0])];
                         DataGridViewCell cell = row.Cells[int.Parse(coord[1])];
                         string cellName = "R" + (row.Index + 1).ToString() + "C" + (cell.ColumnIndex + 1).ToString();
-                        Cell ns = new Cell(cell, cellName, sr.ReadLine());
+                        Cell ns = new Cell(cell, cellName, row.Index + 1, cell.ColumnIndex + 1, sr.ReadLine());
                         ns.Value = sr.ReadLine();
                         cell.Tag = ns;
+                        cells.Add(ns);
                     }
                     UpdateCellValues();
                     sr.Close();
