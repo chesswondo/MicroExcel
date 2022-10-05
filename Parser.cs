@@ -10,6 +10,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
+using System.Globalization;
 
 namespace MicroExcel
 {
@@ -43,7 +44,8 @@ namespace MicroExcel
         }
         public override double VisitNumberExpr(LabCalculatorParser.NumberExprContext context)
         {
-            var result = double.Parse(context.GetText());
+            //MessageBox.Show(context.GetText());
+            var result = double.Parse(context.GetText(), CultureInfo.InvariantCulture);
             //Debug.WriteLine(result);
             return result;
         }

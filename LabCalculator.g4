@@ -19,8 +19,8 @@ LPAREN expression RPAREN                                              #Parenthes
 * Lexer Rules
 */
 NUMBER : INT ('.' INT)?;
-IDENTIFIER : [rR]('0'..'9')+[cC]('0'..'9')+;
 INT : ('0'..'9')+;
+IDENTIFIER : [rR]('0'..'9')+[cC]('0'..'9')+;
 EXPONENT : '^';
 COMA : ',';
 MULTIPLY : '*';
