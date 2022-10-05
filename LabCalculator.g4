@@ -5,25 +5,23 @@
 */
 compileUnit : expression EOF;
 expression :
-LPAREN expression RPAREN #ParenthesizedExpr
-//expression COMA expression #
-|expression EXPONENT expression #ExponentialExpr
-| expression operatorToken=(MULTIPLY | DIVIDE) expression #MultiplicativeExpr
-| expression operatorToken=(DIV | MOD) expression #DivModExpr
-| expression operatorToken=(ADD | SUBTRACT) expression #AdditiveExpr
+LPAREN expression RPAREN                                             #ParenthesizedExpr
+| <assoc=right> expression EXPONENT expression                       #ExponentialExpr
+| expression operatorToken=(MULTIPLY | DIVIDE) expression            #MultiplicativeExpr
+| expression operatorToken=(DIV | MOD) expression                    #DivModExpr
+| expression operatorToken=(ADD | SUBTRACT) expression               #AdditiveExpr
 | operatorToken=(MAX | MIN) LPAREN expression COMA expression RPAREN #MaxMinExpr
-| NUMBER #NumberExpr
-| IDENTIFIER #IdentifierExpr
+| NUMBER                                                             #NumberExpr
+| IDENTIFIER                                                         #IdentifierExpr
 ;
 
 /*
 * Lexer Rules
 */
 NUMBER : INT ('.' INT)?;
-IDENTIFIER : [a-zA-Z]+[1-9][0-9]+;
+IDENTIFIER : [rR]('0'..'9')+[cC]('0'..'9')+;
 INT : ('0'..'9')+;
-//EXPONENT : '^';
-EXPONENT : '$';
+EXPONENT : '^';
 COMA : ',';
 MULTIPLY : '*';
 DIVIDE : '/';
