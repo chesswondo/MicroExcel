@@ -121,7 +121,7 @@
     <None Include="Pics\new.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Pics\ton.jpg" />
+    <None Include="Pics\chesswondo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -79,7 +79,7 @@ namespace MicroExcel
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::MicroExcel.Properties.Resources.ton;
+            this.pictureBox1.Image = global::MicroExcel.Properties.Resources.chesswondo;
             this.pictureBox1.Location = new System.Drawing.Point(12, 27);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(98, 102);
