@@ -64,7 +64,7 @@ namespace MicroExcel
                 if (cell.Value == "") return 0.0;
                 return Convert.ToDouble(cell.Value);
             }
-            if (cell.Cacluled == true) 
+            if (cell.Calculed == true) 
                 throw new ArgumentException("Знайдена циклічна залежність");
             return Evaluate(cell.Formula, me);
         }

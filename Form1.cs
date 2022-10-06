@@ -116,7 +116,7 @@ namespace MicroExcel
         private void resetCalculated()
         {
             foreach (Cell c in cells)
-                c.calcflag = false;
+                c.Calculed = false;
         }
 
         private void reCalcAll()
@@ -126,7 +126,7 @@ namespace MicroExcel
                 if (c.Formula != "")
                 {
                     resetCalculated();
-                    c.calcflag = true;
+                    c.Calculed = true;
                     c.Value = parser.Evaluate(c.Formula, this).ToString();
 
                  }
@@ -166,11 +166,7 @@ namespace MicroExcel
 
         private void QuitMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Quit?", "Exit", MessageBoxButtons.YesNo);
-            if (result == System.Windows.Forms.DialogResult.Yes)
-            {
                 Close();
-            }
         }
 
         private void formulaView_CheckedChanged(object sender, EventArgs e)
@@ -258,7 +254,7 @@ namespace MicroExcel
             else
             {
                 resetCalculated();
-                cell.calcflag = true;
+                cell.Calculed = true;
                 try
                 {
                     if (!checkParens(cell.Formula))
@@ -385,7 +381,7 @@ namespace MicroExcel
         private void miAbout_Click(object sender, EventArgs e)
         {
             Form2 form = new Form2();
-            form.Show();
+            form.ShowDialog();
         }
 
         public Cell getCell(int row, int col)
@@ -394,6 +390,13 @@ namespace MicroExcel
             //string g = "GetCell [" + row + "," + col + "] = " + cell.Value;
             //MessageBox.Show(g, "", MessageBoxButtons.OK);
             return (Cell)dataGridView[col, row].Tag;
+        }
+
+        private void ClosingForm(object sender, FormClosingEventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Вийти з програми?", "Завершення роботи", MessageBoxButtons.YesNo);
+            if (result == System.Windows.Forms.DialogResult.No)
+                e.Cancel = true;
         }
     }
 }
