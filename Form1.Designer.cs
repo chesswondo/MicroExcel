@@ -169,9 +169,14 @@ namespace MicroExcel
             this.dataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellEndEdit);
             // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.DefaultExt = "\"mixel\"";
+            this.saveFileDialog.Filter = "MicroExel|*.mixel|Всі файли|*.*";
+            // 
             // openFileDialog
             // 
-            this.openFileDialog.FileName = "openFileDialog1";
+            this.openFileDialog.Filter = "MicroExcel|*mixel|Всі файли|*.*";
             // 
             // btnSave
             // 

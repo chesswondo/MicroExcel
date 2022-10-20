@@ -19,6 +19,7 @@ namespace MicroExcel
         private const int _rowHeaderWidth = 70;  // Ширина заголовка рядків
 
         private bool _formulaView = false;       // Показувати формули чи значення
+        private bool _saved = true;
 
         static public MEParser parser = new MEParser();   // Доступний всім
 
@@ -277,6 +278,7 @@ namespace MicroExcel
             reCalcAll();
             UpdateCellValues();
             //UpdateSingleCellValue(dgvCell);
+            _saved = false;
         }
 
         private bool checkParens(string f)
@@ -313,6 +315,7 @@ namespace MicroExcel
                     }
                     sw.Close();
                     mystream.Close();
+                    _saved = true;
                 }
 
             }
@@ -325,6 +328,11 @@ namespace MicroExcel
 
         private void Open()
         {
+            if (!_saved)
+            {
+                DialogResult result = MessageBox.Show("Є незбережені зміни! Підтверждуєте загрузку?", "Незбережені зміни!", MessageBoxButtons.YesNo);
+                if (result == System.Windows.Forms.DialogResult.No) return;
+            }
             Stream mystream;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -358,6 +366,7 @@ namespace MicroExcel
                     UpdateCellValues();
                     sr.Close();
                     mystream.Close();
+                    _saved = true;
                 }
 
             }
@@ -394,9 +403,17 @@ namespace MicroExcel
 
         private void ClosingForm(object sender, FormClosingEventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вийти з програми?", "Завершення роботи", MessageBoxButtons.YesNo);
-            if (result == System.Windows.Forms.DialogResult.No)
-                e.Cancel = true;
+            if (!_saved)
+            {
+                DialogResult result = MessageBox.Show("Є незбережені зміни! Підтверждуєте завершення роботи?", "Незбережені зміни!", MessageBoxButtons.YesNo);
+                if (result == System.Windows.Forms.DialogResult.No) e.Cancel = true;
+            }
+            else
+            {
+                DialogResult result = MessageBox.Show("Вийти з програми?", "Завершення роботи", MessageBoxButtons.YesNo);
+                if (result == System.Windows.Forms.DialogResult.No)
+                    e.Cancel = true;
+            }
         }
     }
 }
