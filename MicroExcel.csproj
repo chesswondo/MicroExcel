@@ -123,6 +123,18 @@
   <ItemGroup>
     <None Include="Pics\chesswondo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Pics\delr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pics\delc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pics\addr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pics\addc.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

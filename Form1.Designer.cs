@@ -35,6 +35,11 @@ namespace MicroExcel
             this.miOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.miSave = new System.Windows.Forms.ToolStripMenuItem();
             this.QuitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.коміркиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.видалитиРядокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.видалитиСтовпчикToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.додатиРядокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.додатиСтовпчикToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.видToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miFormulas = new System.Windows.Forms.ToolStripMenuItem();
             this.miValues = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,6 +59,7 @@ namespace MicroExcel
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.файлToolStripMenuItem,
+            this.коміркиToolStripMenuItem,
             this.видToolStripMenuItem,
             this.miAbout});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -108,6 +114,49 @@ namespace MicroExcel
             this.QuitMenuItem.Size = new System.Drawing.Size(165, 22);
             this.QuitMenuItem.Text = "Вихід";
             this.QuitMenuItem.Click += new System.EventHandler(this.QuitMenuItem_Click);
+            // 
+            // коміркиToolStripMenuItem
+            // 
+            this.коміркиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.видалитиРядокToolStripMenuItem,
+            this.видалитиСтовпчикToolStripMenuItem,
+            this.додатиРядокToolStripMenuItem,
+            this.додатиСтовпчикToolStripMenuItem});
+            this.коміркиToolStripMenuItem.Name = "коміркиToolStripMenuItem";
+            this.коміркиToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
+            this.коміркиToolStripMenuItem.Text = "Комірки";
+            // 
+            // видалитиРядокToolStripMenuItem
+            // 
+            this.видалитиРядокToolStripMenuItem.Image = global::MicroExcel.Properties.Resources.delr;
+            this.видалитиРядокToolStripMenuItem.Name = "видалитиРядокToolStripMenuItem";
+            this.видалитиРядокToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.видалитиРядокToolStripMenuItem.Text = "Видалити рядок";
+            this.видалитиРядокToolStripMenuItem.Click += new System.EventHandler(this.DelRow);
+            // 
+            // видалитиСтовпчикToolStripMenuItem
+            // 
+            this.видалитиСтовпчикToolStripMenuItem.Image = global::MicroExcel.Properties.Resources.delc;
+            this.видалитиСтовпчикToolStripMenuItem.Name = "видалитиСтовпчикToolStripMenuItem";
+            this.видалитиСтовпчикToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.видалитиСтовпчикToolStripMenuItem.Text = "Видалити стовпчик";
+            this.видалитиСтовпчикToolStripMenuItem.Click += new System.EventHandler(this.DelCol);
+            // 
+            // додатиРядокToolStripMenuItem
+            // 
+            this.додатиРядокToolStripMenuItem.Image = global::MicroExcel.Properties.Resources.addr;
+            this.додатиРядокToolStripMenuItem.Name = "додатиРядокToolStripMenuItem";
+            this.додатиРядокToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.додатиРядокToolStripMenuItem.Text = "Додати рядок";
+            this.додатиРядокToolStripMenuItem.Click += new System.EventHandler(this.AddRow);
+            // 
+            // додатиСтовпчикToolStripMenuItem
+            // 
+            this.додатиСтовпчикToolStripMenuItem.Image = global::MicroExcel.Properties.Resources.addc;
+            this.додатиСтовпчикToolStripMenuItem.Name = "додатиСтовпчикToolStripMenuItem";
+            this.додатиСтовпчикToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.додатиСтовпчикToolStripMenuItem.Text = "Додати стовпчик";
+            this.додатиСтовпчикToolStripMenuItem.Click += new System.EventHandler(this.AddCol);
             // 
             // видToolStripMenuItem
             // 
@@ -262,6 +311,11 @@ namespace MicroExcel
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ToolStripMenuItem miAbout;
+        private System.Windows.Forms.ToolStripMenuItem коміркиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem видалитиРядокToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem видалитиСтовпчикToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem додатиРядокToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem додатиСтовпчикToolStripMenuItem;
     }
 }
 

@@ -35,7 +35,8 @@ namespace MicroExcel
 
         private void InitializeDataGridView()
         {
-            dataGridView.AllowUserToAddRows = false;
+            dataGridView.AllowUserToAddRows = true;
+            dataGridView.AllowUserToDeleteRows = true;
             dataGridView.ColumnCount = _maxCols;
             dataGridView.RowCount = _maxRows;
 
@@ -414,6 +415,30 @@ namespace MicroExcel
                 if (result == System.Windows.Forms.DialogResult.No)
                     e.Cancel = true;
             }
+        }
+
+        private void DelRow(object sender, EventArgs e)
+        {
+            if (dataGridView.RowCount <= 2) { MessageBox.Show("Подальше видалення неможливе"); return; }
+            int ROWS = dataGridView.RowCount - 1;
+            dataGridView.Rows.RemoveAt(ROWS-1);
+            dataGridView.Rows[ROWS-1].HeaderCell.Value = "R" + ROWS.ToString();
+            dataGridView.Refresh();
+        }
+
+        private void DelCol(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddRow(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddCol(object sender, EventArgs e)
+        {
+
         }
     }
 }
