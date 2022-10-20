@@ -23,22 +23,22 @@ namespace MicroExcel
 
         static public MEParser parser = new MEParser();   // Доступний всім
 
-        public List<Cell> cells;
+       public int RowCount { get { return dataGridView.RowCount; }  }
+        public int ColCount { get { return dataGridView.ColumnCount; } }
 
         public MicroExcel()
         {
-            cells = new List<Cell>();
             InitializeComponent();
-            InitializeDataGridView();
+            InitializeDataGridView(_maxRows,_maxCols);
             InitializeAllCells();
         }
 
-        private void InitializeDataGridView()
+        private void InitializeDataGridView(int rows, int cols)
         {
             dataGridView.AllowUserToAddRows = true;
             dataGridView.AllowUserToDeleteRows = true;
-            dataGridView.ColumnCount = _maxCols;
-            dataGridView.RowCount = _maxRows;
+            dataGridView.ColumnCount = cols;
+            dataGridView.RowCount = rows;
 
             FillHeaders();
 
@@ -72,7 +72,6 @@ namespace MicroExcel
             cell.Value = "";
             // cell.Value = cellName;  // Для відладки - ім'я комірки
 
-            cells.Add(ns);
         }
         // Ініціалізуємо всі комірки таблиці
         private void InitializeAllCells()
@@ -100,38 +99,48 @@ namespace MicroExcel
                 }
             }
         }
-        // Оновлення всіх комірок за виключенням одної
-        private void UpdateCellValues(DataGridViewCell invoker)
+        private void resetCalculated()
         {
             foreach (DataGridViewRow row in dataGridView.Rows)
             {
                 foreach (DataGridViewCell dgvCell in row.Cells)
                 {
-                    if (invoker != dgvCell)
-                    {
-                        UpdateSingleCellValue(dgvCell);
-                    }
+                    Cell cl = (Cell)dgvCell.Tag;
+                    cl.Calculed = false;
                 }
             }
         }
 
-        private void resetCalculated()
-        {
-            foreach (Cell c in cells)
-                c.Calculed = false;
-        }
-
         private void reCalcAll()
         {
-            foreach (Cell c in cells)
-            {
-                if (c.Formula != "")
-                {
-                    resetCalculated();
-                    c.Calculed = true;
-                    c.Value = parser.Evaluate(c.Formula, this).ToString();
 
-                 }
+            for (bool ok = true; ; )
+            {
+                ok = true;
+                foreach (DataGridViewRow row in dataGridView.Rows)
+                {
+                    foreach (DataGridViewCell dgvCell in row.Cells)
+                    {
+                        Cell c = (Cell)dgvCell.Tag;
+                        if (c.Formula != "")
+                        {
+                            resetCalculated();
+                            c.Calculed = true;
+                            try
+                            {
+                                c.Value = parser.Evaluate(c.Formula, this).ToString();
+                            }
+                            catch (Exception ee)
+                            {
+                                MessageBox.Show("Невірна формула: " + ee.Message, "Помилка", MessageBoxButtons.OK);
+                                c.Value = "";
+                                c.Formula = "";
+                                ok = false;
+                            }
+                        }
+                    }
+                }
+                if (ok) break;
             }
         }
 
@@ -351,8 +360,6 @@ namespace MicroExcel
                     dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                     dataGridView.RowHeadersWidth = _rowHeaderWidth;
 
-                    cells.Clear();
-
                     while(sr.Peek() != -1)
                     {
                         var coord = sr.ReadLine().Split(' ');
@@ -362,7 +369,6 @@ namespace MicroExcel
                         Cell ns = new Cell(cell, cellName, row.Index + 1, cell.ColumnIndex + 1, sr.ReadLine());
                         ns.Value = sr.ReadLine();
                         cell.Tag = ns;
-                        cells.Add(ns);
                     }
                     UpdateCellValues();
                     sr.Close();
@@ -419,15 +425,20 @@ namespace MicroExcel
 
         private void DelRow(object sender, EventArgs e)
         {
-            if (dataGridView.RowCount <= 2) { MessageBox.Show("Подальше видалення неможливе"); return; }
-            int ROWS = dataGridView.RowCount - 1;
+            if (RowCount <= 2) { MessageBox.Show("Подальше видалення неможливе"); return; }
+            int ROWS = RowCount - 1;
             dataGridView.Rows.RemoveAt(ROWS-1);
             dataGridView.Rows[ROWS-1].HeaderCell.Value = "R" + ROWS.ToString();
             dataGridView.Refresh();
+            reCalcAll();
         }
 
         private void DelCol(object sender, EventArgs e)
         {
+            if (ColCount <= 2) { MessageBox.Show("Подальше видалення неможливе"); return; }
+            dataGridView.Columns.RemoveAt(ColCount-1);
+            dataGridView.Refresh();
+            reCalcAll();
 
         }
 

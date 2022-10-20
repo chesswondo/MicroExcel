@@ -56,7 +56,7 @@ namespace MicroExcel
             var rc = Regex.Split(result, @"\D+").Where(s => s != "").ToArray();
             int row = Convert.ToInt32(rc[0])-1;
             int col = Convert.ToInt32(rc[1])-1;
-            if (row < 0 || row >= MicroExcel._maxRows || col < 0 || col >= MicroExcel._maxCols)
+            if (row < 0 || row >= me.RowCount || col < 0 || col >= me.ColCount)
                 throw new ArgumentException("Посилання на неіснуючу комірку");
             Cell cell = me.getCell(row, col);
             if (!recurrence)
