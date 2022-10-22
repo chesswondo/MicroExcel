@@ -87,6 +87,18 @@ namespace MicroExcel
             }
         }
 
+        private void ReinitializeAllCells()
+        {
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (cell.Tag == null)
+                        InitializeSingleCell(row, cell);
+                }
+            }
+        }
+
         // Оновлення комірок
         // Оновлення всіх комірок
         private void UpdateCellValues()
@@ -444,12 +456,25 @@ namespace MicroExcel
 
         private void AddRow(object sender, EventArgs e)
         {
-
+            dataGridView.Rows.Add();
+            ReinitializeAllCells();
+            FillHeaders();
+            dataGridView.Refresh();
         }
 
         private void AddCol(object sender, EventArgs e)
         {
+            DataGridViewColumn col = (DataGridViewColumn)dataGridView.Columns[0].Clone();
+            dataGridView.Columns.Add(col);
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                DataGridViewCell cell = row.Cells[ColCount - 1];
+                cell.Tag = null;
+            }
 
+            ReinitializeAllCells();
+            FillHeaders();
+            dataGridView.Refresh();
         }
     }
 }
