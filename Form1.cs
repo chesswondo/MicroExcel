@@ -118,7 +118,12 @@ namespace MicroExcel
                 foreach (DataGridViewCell dgvCell in row.Cells)
                 {
                     Cell cl = (Cell)dgvCell.Tag;
-                    cl.Calculed = false;
+                    if (cl != null) cl.Calculed = false;
+                    else
+                    {
+                        InitializeSingleCell(row, dgvCell);
+                        FillHeaders();
+                    }
                 }
             }
         }
@@ -251,7 +256,7 @@ namespace MicroExcel
             // Значення комірки для редагування береться як формула з об'єкту
             DataGridViewCell dgvCell = cell.Parent;
             dgvCell.Value = cell.Formula;
-
+                       
         }
 
         private void dataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)

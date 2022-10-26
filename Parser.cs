@@ -77,6 +77,9 @@ namespace MicroExcel
             var left = WalkLeft(context);
             var right = WalkRight(context);
             //Debug.WriteLine("{0} ^ {1}", left, right);
+            if (left == 0 && right == 0)
+                throw new ArgumentException("0^0");
+
             return System.Math.Pow(left, right);
         }
 
