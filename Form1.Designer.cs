@@ -171,7 +171,7 @@ namespace MicroExcel
             // 
             this.miFormulas.Image = global::MicroExcel.Properties.Resources.Formula;
             this.miFormulas.Name = "miFormulas";
-            this.miFormulas.Size = new System.Drawing.Size(127, 22);
+            this.miFormulas.Size = new System.Drawing.Size(180, 22);
             this.miFormulas.Text = "Формули";
             this.miFormulas.Click += new System.EventHandler(this.miFormulas_Click);
             // 
@@ -181,7 +181,7 @@ namespace MicroExcel
             this.miValues.CheckState = System.Windows.Forms.CheckState.Checked;
             this.miValues.Image = global::MicroExcel.Properties.Resources._123;
             this.miValues.Name = "miValues";
-            this.miValues.Size = new System.Drawing.Size(127, 22);
+            this.miValues.Size = new System.Drawing.Size(180, 22);
             this.miValues.Text = "Значення";
             this.miValues.Click += new System.EventHandler(this.miValues_Click);
             // 
@@ -222,10 +222,12 @@ namespace MicroExcel
             // 
             this.saveFileDialog.DefaultExt = "\"mixel\"";
             this.saveFileDialog.Filter = "MicroExel|*.mixel|Всі файли|*.*";
+            this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog_FileOk);
             // 
             // openFileDialog
             // 
-            this.openFileDialog.Filter = "MicroExcel|*mixel|Всі файли|*.*";
+            this.openFileDialog.Filter = "MicroExcel|*.mixel|Всі файли|*.*";
+            this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
             // 
             // btnSave
             // 

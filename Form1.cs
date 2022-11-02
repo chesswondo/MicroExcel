@@ -62,15 +62,15 @@ namespace MicroExcel
             }
         }
         // Ініціалізуємо одну комірку за її координатами
-        private void InitializeSingleCell(DataGridViewRow row, DataGridViewCell cell)
+        private void InitializeSingleCell(DataGridViewRow row, DataGridViewCell dgvc)
         {
             // Компонуємо її ім'я
-            string cellName = "R" + (row.Index + 1).ToString() + "C" + (cell.ColumnIndex + 1).ToString();
+            string cellName = "R" + (row.Index + 1).ToString() + "C" + (dgvc.ColumnIndex + 1).ToString();
             // Створюємо комірку; cell — батьківський об'єкт
-            Cell ns = new Cell(cell, cellName, row.Index + 1, cell.ColumnIndex + 1, "");
-            cell.Tag = ns;
-            cell.Value = "";
-            // cell.Value = cellName;  // Для відладки - ім'я комірки
+            Cell ns = new Cell(dgvc, cellName, row.Index + 1, dgvc.ColumnIndex + 1, "");
+            dgvc.Tag = ns;
+            dgvc.Value = "";
+            // dgvc.Value = cellName;  // Для відладки - ім'я комірки
 
         }
         // Ініціалізуємо всі комірки таблиці
@@ -480,6 +480,16 @@ namespace MicroExcel
             ReinitializeAllCells();
             FillHeaders();
             dataGridView.Refresh();
+        }
+
+        private void openFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void saveFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+
         }
     }
 }
