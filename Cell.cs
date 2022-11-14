@@ -17,6 +17,8 @@ namespace MicroExcel
         public int Row { get { return row_; } }
         public int Col { get { return col_; } }
 
+        public bool Error { get; set; }
+
         // Геттери та сеттери
         public bool Calculed { get; set; }          // При оновленні таблиці
         public string Value { get { return _value; } set { _value = value; /* .Equals("0") ? "0" : "1"; */ } }
@@ -24,6 +26,7 @@ namespace MicroExcel
         public DataGridViewCell Parent { get { return _parent; } }
         public Cell(DataGridViewCell parent, string name, int row, int col, string formula, string value = "")
         {
+            Error = false;
             row_ = row;
             col_ = col;
             _parent = parent;
@@ -34,11 +37,6 @@ namespace MicroExcel
         {
             row_ = col_ = 0;
         }
-
-        private void Calculate()
-        {
-        }
-
 
     }
 }

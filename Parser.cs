@@ -35,7 +35,6 @@ namespace MicroExcel
     {
 
         private MicroExcel me;
-        public bool recurrence = true;
         public enum Errors { NOERR, SYNTAX, UNBALPARENS, NOEXP, DIVBYZERO };
         public Errors tokErrors;
         public override double VisitCompileUnit(LabCalculatorParser.CompileUnitContext context)
@@ -59,11 +58,9 @@ namespace MicroExcel
             if (row < 0 || row >= me.RowCount || col < 0 || col >= me.ColCount)
                 throw new ArgumentException("Посилання на неіснуючу комірку");
             Cell cell = me.getCell(row, col);
-            if (!recurrence)
-            {
-                if (cell.Value == "") return 0.0;
-                return Convert.ToDouble(cell.Value);
-            }
+            if (cell.Error)
+                throw new ArgumentException("Посилання на помилкову комірку");
+
             if (cell.Calculed == true) 
                 throw new ArgumentException("Знайдена циклічна залежність");
             return Evaluate(cell.Formula, me);

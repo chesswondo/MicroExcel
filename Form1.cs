@@ -118,7 +118,11 @@ namespace MicroExcel
                 foreach (DataGridViewCell dgvCell in row.Cells)
                 {
                     Cell cl = (Cell)dgvCell.Tag;
-                    if (cl != null) cl.Calculed = false;
+                    if (cl != null)
+                    {
+                        cl.Calculed = false;
+                        //cl.Error = false;
+                    }
                     else
                     {
                         InitializeSingleCell(row, dgvCell);
@@ -145,13 +149,16 @@ namespace MicroExcel
                             c.Calculed = true;
                             try
                             {
-                                c.Value = parser.Evaluate(c.Formula, this).ToString();
+                                if (c.Error) c.Value = "Error";
+                                else
+                                    c.Value = parser.Evaluate(c.Formula, this).ToString();
                             }
                             catch (Exception ee)
                             {
                                 MessageBox.Show("Невірна формула: " + ee.Message, "Помилка", MessageBoxButtons.OK);
-                                c.Value = "";
-                                c.Formula = "";
+                                c.Error = true;
+                                c.Value = "Error";
+                                //c.Formula = "";
                                 ok = false;
                             }
                         }
@@ -283,23 +290,26 @@ namespace MicroExcel
             {
                 resetCalculated();
                 cell.Calculed = true;
+                cell.Error = false;
                 try
                 {
                     if (!checkParens(cell.Formula))
                         throw new ArgumentException("Проблема з дужками у виразі");
-                    cell.Value = parser.Evaluate(cell.Formula, this).ToString();
+                    if (cell.Error) cell.Value = "Error";
+                    else cell.Value = parser.Evaluate(cell.Formula, this).ToString();
                 }
                 catch (ArgumentException ee)
                 {
                     MessageBox.Show(ee.Message, "Помилка", MessageBoxButtons.OK);
-                    cell.Value = "";
-                    cell.Formula = "";
+                    cell.Value = "Error";
+                    cell.Error = true;
                 }
                 catch (Exception ee)
                 {
                     MessageBox.Show("Невірна формула: " + ee.Message, "Помилка", MessageBoxButtons.OK);
-                    cell.Value = "";
-                    cell.Formula = "";
+                    cell.Value = "Error";
+                    cell.Error = true;
+
                 }
             }
             reCalcAll();
@@ -338,6 +348,7 @@ namespace MicroExcel
                             sw.WriteLine(i.ToString()+" " + j.ToString());
                             sw.WriteLine(cell.Formula);
                             sw.WriteLine(cell.Value);
+                            sw.WriteLine(cell.Error ? "1" : "0");
                         }
                     }
                     sw.Close();
@@ -385,6 +396,7 @@ namespace MicroExcel
                         string cellName = "R" + (row.Index + 1).ToString() + "C" + (cell.ColumnIndex + 1).ToString();
                         Cell ns = new Cell(cell, cellName, row.Index + 1, cell.ColumnIndex + 1, sr.ReadLine());
                         ns.Value = sr.ReadLine();
+                        ns.Error = sr.ReadLine() == "1" ? true : false;
                         cell.Tag = ns;
                     }
                     UpdateCellValues();
