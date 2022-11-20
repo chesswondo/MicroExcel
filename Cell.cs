@@ -37,6 +37,5 @@ namespace MicroExcel
         {
             row_ = col_ = 0;
         }
-
     }
 }
